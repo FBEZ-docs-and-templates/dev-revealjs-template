@@ -15,6 +15,7 @@ Docker installed
 ### Other commands
 
 * 'make shell' for an interactive shell
+* 'compile-theme' to compile a src/custom.scss to src/custom.css
 
 ## Thanks
 * [nbrownuk](https://github.com/nbrownuk/docker-revealjs)

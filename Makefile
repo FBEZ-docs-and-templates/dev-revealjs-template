@@ -1,5 +1,5 @@
-IMAGE_NAME ?= python-dev
-CONTAINER_NAME ?= python-dev
+IMAGE_NAME ?= nbrown/revealjs
+CONTAINER_NAME ?= nbrown/revealjs
 VERSION ?= latest
 
 .PHONY: build shell run stop rm dev-run compile-theme
@@ -14,7 +14,8 @@ run:
 	docker run --rm --name $(CONTAINER_NAME) $(IMAGE_NAME):$(VERSION)
 
 shell:
-	docker run --rm --name $(CONTAINER_NAME) -i -t $(PORTS) $(VOLUMES) $(ENV) $(IMAGE_NAME):$(VERSION) /bin/bash
+	docker run -it --rm -p 8000:8000  nbrown/revealjs /bin/bash
+	#docker run --rm --name $(CONTAINER_NAME) -i -t $(PORTS) $(VOLUMES) $(ENV) $(IMAGE_NAME):$(VERSION) /bin/bash
 
 stop:
 	docker stop $(CONTAINER_NAME)
@@ -23,6 +24,7 @@ rm:
 	docker rm $(CONTAINER_NAME)
 	
 compile-theme: 
-	rm -f src/custom.css>/dev/null 
-	touch src/custom.css
-	docker run -it --rm -v $$PWD/src/custom.css:/reveal.js/css/themes/custom.css -v $$PWD/src/custom.scss:/reveal.js/css/themes/source/custom.scss nbrown/revealjs grunt css-themes
+	>src/custom.css
+	docker run -it --rm -v $$PWD/src/custom.css:/reveal.js/css/theme/custom.css -v $$PWD/src/custom.scss:/reveal.js/css/theme/source/custom.scss nbrown/revealjs grunt css-themes
+	
+	
