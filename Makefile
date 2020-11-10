@@ -2,7 +2,7 @@ IMAGE_NAME ?= python-dev
 CONTAINER_NAME ?= python-dev
 VERSION ?= latest
 
-.PHONY: build shell run stop rm dev-run
+.PHONY: build shell run stop rm dev-run compile-theme
 
 build: Dockerfile
 	docker build -t $(IMAGE_NAME):$(VERSION) -f Dockerfile .
@@ -21,3 +21,8 @@ stop:
 
 rm:
 	docker rm $(CONTAINER_NAME)
+	
+compile-theme: 
+	rm -f src/custom.css>/dev/null 
+	touch src/custom.css
+	docker run -it --rm -v $$PWD/src/custom.css:/reveal.js/css/themes/custom.css -v $$PWD/src/custom.scss:/reveal.js/css/themes/source/custom.scss nbrown/revealjs grunt css-themes
